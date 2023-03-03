@@ -1,0 +1,26 @@
+import telnetlib
+
+# Define the Telnet parameters
+HOST = '192.168.1.1'
+PORT = 23
+USER = 'admin'
+PASSWORD = 'password'
+
+# Connect to the remote device
+tn = telnetlib.Telnet(HOST, PORT)
+
+# Send login credentials
+tn.read_until(b"Username: ")
+tn.write(USER.encode('ascii') + b"\n")
+tn.read_until(b"Password: ")
+tn.write(PASSWORD.encode('ascii') + b"\n")
+
+# Send a command and retrieve the output
+tn.write(b"show interfaces\n")
+output = tn.read_all()
+
+# Print the output of the command
+print(output.decode('ascii'))
+
+# Close the Telnet connection
+tn.close()
